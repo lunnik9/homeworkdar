@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/binary"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -14,10 +14,12 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	indexString = strings.Replace(indexString, "/", "", -1)
 	indexInt64, _ := strconv.ParseInt(indexString, 10, 32)
 	index := int(indexInt64)
-	err := binary.Write(w, binary.LittleEndian, uint16(FibonacciCounter(index).Current))
+	bs, err := json.Marshal(FibonacciCounter(index))
 	if err != nil {
 		fmt.Println(err)
 	}
+	w.Write(bs)
+	fmt.Println(FibonacciCounter(index).Current)
 }
 
 func FibonacciCounter(index int) (f FibNumber) {
@@ -49,6 +51,7 @@ type FibNumber struct {
 }
 
 func main() {
-	http.HandleFunc("/4", handler)
+
+	http.HandleFunc("/", handler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
