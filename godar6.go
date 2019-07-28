@@ -19,7 +19,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 	w.Write(bs)
-	fmt.Println(FibonacciCounter(index).Current)
 }
 
 func FibonacciCounter(index int) (f FibNumber) {
