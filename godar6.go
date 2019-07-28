@@ -18,7 +18,10 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	w.Write(bs)
+	_, err = w.Write(bs)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 func FibonacciCounter(index int) (f FibNumber) {
